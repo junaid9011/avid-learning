@@ -23,9 +23,25 @@ export default function BasicModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [counter, setCounter] = React.useState(0);
+  const [name, setSetName] = React.useState()
+  const [formData, setFormData] = React.useState()
+  const handleChange = (e) => {
+    if (e.target.name === 'name') {
+      // setFormData({...formData,name:e.target.value})
+    }
+    else if (e.target.name === 'links') {
+      let links = [];
 
+
+    }
+  }
+  //input field
   const handleClick = () => {
     setCounter(counter + 1);
+  }
+
+  const handleDelete = () => {
+    if (counter > 0) setCounter(counter - 1);
   }
   return (
     <div>
@@ -37,27 +53,37 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-                <MDBox mb={2}>
-                    <MDInput name="name" type="text" label="Video Name" fullWidth />
-                  </MDBox>
-                 {/* onChange={(e)=>handleChange(e)} 
+          Resource
+          <MDBox mb={2}>
+            <MDInput onClick={(e) => handleChange(e)} name="name" type="text" label="Video Name" fullWidth />
+          </MDBox>
+          <MDBox mb={2}>
+            <MDInput name="links" type="text" label="Video Links" fullWidth />
+          </MDBox>
+          {/* onChange={(e)=>handleChange(e)} 
 onChange={(e)=>handleChange(e)}  */}
-                 
-                  
-                  <div className="App">
-                   
-                    {Array.from(Array(counter)).map((c, index) => {
-                        return <>
-                         <MDBox mb={2}>
-                    <MDInput name="total_modules" type="text" label="Video Links" fullWidth />
-                  </MDBox></>
-                    })}
-                    </div>
-                    <Button onClick={handleClick}>Add </Button>
-                    <Button onClick={()=>setCounter(counter - 1)}>delete</Button>
-                    <Button onClick={handleClick}>Save </Button>
 
+
+          <div className="App">
           
+            {Array.from(Array(counter)).map((c, index) => {
+              return <>
+               Resource
+                <MDBox mb={2}>
+                  <MDInput name="name" type="text" label="Video Name" fullWidth />
+                </MDBox>
+                <MDBox mb={2}>
+                  <MDInput name="links" type="text" label="Video Links" fullWidth />
+                </MDBox>
+              </>
+            })}
+          </div>
+          <Button onClick={handleClick}>Add </Button>
+          <Button onClick={handleDelete}>delete</Button>
+          <br />
+          <Button onClick={handleClick}>Save </Button>
+
+
         </Box>
       </Modal>
     </div>

@@ -45,6 +45,9 @@ import { useMaterialUIController } from "context";
 
 import brandDark from "assets/images/logo-ct-dark.png";
 import brandWhite from "assets/images/logo-ct.png";
+import { useSelector } from "react-redux";
+import { setLogout } from "Redux/Features/Authentication/authReducer";
+import { Button } from "@mui/material";
 
 function DefaultNavbar({ transparent, light, action }) {
   const [controller] = useMaterialUIController();
@@ -79,7 +82,15 @@ function DefaultNavbar({ transparent, light, action }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", displayMobileNavbar);
   }, []);
-
+    const state=useSelector(state=>state);
+    let user=state.auth.user
+    
+    const handleLogOut=()=>{
+      setLogout();
+      window.location.reload()
+      // console.log(state)
+    }
+    
   return (
     <>
       <MDBox
@@ -133,9 +144,16 @@ function DefaultNavbar({ transparent, light, action }) {
           <DefaultNavbarLink name="blogs" route="/blogs" />
           {/* <DefaultNavbarLink name="forums" route="/forums" /> */}
           <DefaultNavbarLink name="our courses" route="/our-courses" />
-          <DefaultNavbarLink name="profile" route="/profile" />
-          <DefaultNavbarLink icon="account_circle" name="sign up" route="/authentication/sign-up" />
+          {user&&
+          <>
+          <DefaultNavbarLink name={user.username} route="/profile" />
+          <Button onClick={handleLogOut} >Log Out</Button>
+          {/* <DefaultNavbarLink onClick={()=>handleLogOut} name="Log Out" route="/" /> */}
+          </>}
+         { !user&&<>
+          {/* <DefaultNavbarLink icon="account_circle" name="sign up" route="/authentication/sign-up" /> */}
           <DefaultNavbarLink name="sign in" route="/authentication/sign-in" />
+          </>}
         </MDBox>
 
         <MDBox

@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useEffect, useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -37,21 +37,22 @@ import MDTypography from "components/MDTypography";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "Redux/Features/Authentication/authReducer";
 import { useSigninMutation } from "Redux/Features/Authentication/auth";
-import { getCookie } from "Utlis/cookie";
+// import { getCookie } from "Utlis/cookie";
 
 // Authentication layout components
 
 // Images
 
 function Basic() {
-  const token=getCookie('atoken');
+  // const token=getCookie('atoken');
+  const navigate=useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const [formData,setFormData]=useState({
     username:"",
     email:"",
     password:""
   });
-  console.log(formData)
+  // console.log(formData)
   const [msg,setMsg]=useState('');
   const dispatch=useDispatch();
   const state=useSelector(state=>state);
@@ -71,12 +72,12 @@ function Basic() {
   useEffect(() => {
     (async () => {
       if(data?.data){
-        console.log(data)
+        // console.log(data)
         dispatch(setLogin(data.data));
-        
+        navigate('/')
       }
     })();
-  }, [dispatch,data.data]);
+  }, [dispatch,data,navigate]);
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   return (

@@ -1,6 +1,6 @@
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -12,7 +12,7 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSignUpMutation } from "Redux/Features/Authentication/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "Redux/Features/Authentication/authReducer";
@@ -22,6 +22,7 @@ import { setLogin } from "Redux/Features/Authentication/authReducer";
 // Images
 
 function Cover() {
+  const navigate=useNavigate();
   const [formData,setFormData]=useState({
     username:"",
     email:"",
@@ -36,16 +37,22 @@ function Cover() {
     setFormData({...formData,[e.target.name]:e.target.value})
   }
   
-  console.log(data)
+  // console.log(data)
 
   const handleSubmit=async(e)=>{
     // setFormData({...formData,[e.target.name]:e.target.value})
       await signUp(formData);
-      if(data.data.access_token){
-        console.log(data)
-        dispatch(setLogin(data.data))
-      }
   }
+  useEffect(() => {
+    (async () => {
+      if(data?.data){
+        // console.log(data)
+        dispatch(setLogin(data.data));
+        navigate('/')
+        
+      }
+    })();
+  }, [dispatch,data,navigate]);
   return (
     <MDBox px={1} width="100%" height="100vh" mx="auto">
       <Grid container spacing={1} justifyContent="center" alignItems="center" height="100%">
